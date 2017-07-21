@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class MapSorter<K extends Comparable<K>, V extends Comparable<V>> {
+public class MapSorter<K extends Comparable<? super K>, V extends Comparable<? super V>> {
 	
 	public Map<K, V> sortByKeyAscending(Map<K, V> unsortMap) {
 
