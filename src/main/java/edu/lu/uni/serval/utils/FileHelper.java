@@ -11,6 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileHelper {
+	
+	public static String getRepositoryName(String gitRepositoryPath) {
+		// ../../git/commons-math/.git
+		String gitRepositoryName = getFileName(getFileParentPath(gitRepositoryPath));
+
+		return gitRepositoryName;
+	}
 
 	/**
 	 * 
@@ -18,8 +25,30 @@ public class FileHelper {
 	 */
 	public static void createDirectory(String filePath) {
 		File file = new File(filePath);
-		if (!file.exists()) {
-			file.mkdirs();
+		if (file.exists()) {
+			deleteDirectory(filePath);
+		}
+		file.mkdirs();
+	}
+	
+	public static void createFile(File file, String content) {
+		FileWriter writer = null;
+		BufferedWriter bw = null;
+
+		try {
+			if (!file.getParentFile().exists()) {
+				file.getParentFile().mkdirs();
+			}
+			if (!file.exists()) file.createNewFile();
+			writer = new FileWriter(file);
+			bw = new BufferedWriter(writer);
+			bw.write(content);
+			bw.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			close(bw);
+			close(writer);
 		}
 	}
 	
@@ -140,6 +169,15 @@ public class FileHelper {
 		return extension;
 	}
 	
+	public static String getFileParentPath(String filePath) {
+		File file = new File(filePath);
+		
+		if (file.exists()) {
+			return file.getParent() + "/";
+		}
+		return "";
+	}
+	
 	/**
 	 * Check whether a file path is valid or not.
 	 * 
@@ -178,7 +216,10 @@ public class FileHelper {
 					fileList.add(f);
 				}
 			} else {
-				fileList.addAll(listAllFiles(f, type));
+				List<File> fl = listAllFiles(f, type);
+				if (fl != null && fl.size() > 0) {
+					fileList.addAll(fl);
+				}
 			}
 		}
 		

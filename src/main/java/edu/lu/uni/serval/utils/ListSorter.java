@@ -3,7 +3,7 @@ package edu.lu.uni.serval.utils;
 import java.util.Collections;
 import java.util.List;
 
-public class ListSorter<T> {
+public class ListSorter<T extends Comparable<? super T>> {
 
 	private List<T> list;
 
@@ -16,13 +16,16 @@ public class ListSorter<T> {
 	}
 
 	public List<T> sortAscending() {
-		Collections.sort(this.list, Collections.reverseOrder());
-		Collections.reverse(list);
+		if (list != null && list.size() > 0) {
+			Collections.sort(this.list);
+		}
 		return this.list;
 	}
 
 	public List<T> sortDescending() {
-		Collections.sort(this.list, Collections.reverseOrder());
+		if (list != null && list.size() > 0) {
+			Collections.sort(this.list, Collections.reverseOrder());
+		}
 		return this.list;
 	}
 }
