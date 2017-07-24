@@ -20,12 +20,10 @@ public class ListSorter<T extends Comparable<? super T>> {
 	public List<T> sortAscending() {
 		try {
 			if (list != null && list.size() > 0) {
-//				Collections.sort(this.list, Collections.reverseOrder());
-//				Collections.reverse(this.list);
 				Collections.sort(this.list);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.toString());
 			return null;
 		}
 		return this.list;
