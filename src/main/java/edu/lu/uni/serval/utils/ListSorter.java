@@ -2,6 +2,7 @@ package edu.lu.uni.serval.utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ListSorter<T extends Comparable<? super T>> {
@@ -20,7 +21,14 @@ public class ListSorter<T extends Comparable<? super T>> {
 	public List<T> sortAscending() {
 		try {
 			if (list != null && list.size() > 0) {
-				Collections.sort(this.list);
+				Collections.sort(this.list, new Comparator<T>() {
+
+					@Override
+					public int compare(T t1, T t2) {
+						return t1.compareTo(t2);
+					}
+					
+				});
 			}
 		} catch (Exception e) {
 			System.out.println(e.toString());
