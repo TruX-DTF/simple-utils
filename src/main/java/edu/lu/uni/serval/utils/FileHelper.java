@@ -123,9 +123,12 @@ public class FileHelper {
 	}
 	
 	public static List<File> getAllFilesInCurrentDiectory(String filePath, String type) {
+		return getAllFilesInCurrentDiectory(new File(filePath), type);
+	}
+	
+	public static List<File> getAllFilesInCurrentDiectory(File directory, String type) {
 		List<File> fileList = new ArrayList<>();
 		
-		File directory = new File(filePath);
 		if (!directory.exists()) {
 			return null;
 		}
@@ -194,7 +197,7 @@ public class FileHelper {
 		
 		return false;
 	}
-
+	
 	/**
 	 * Recursively list all files in file.
 	 * 
@@ -249,7 +252,7 @@ public class FileHelper {
 	
 	public static void makeDirectory(String fileName) {
 		deleteFile(fileName);
-		File file = new File(fileName.substring(0, fileName.lastIndexOf("/")));
+		File file = new File(fileName).getParentFile();
 		if (!file.exists()) {
 			file.mkdirs();
 		}
@@ -262,29 +265,7 @@ public class FileHelper {
 	 * @return String, the content of a file.
 	 */
 	public static String readFile(String fileName) {
-		byte[] input = null;
-		BufferedInputStream bis = null;
-		
-		try {
-			
-			bis = new BufferedInputStream(new FileInputStream(fileName));
-			input = new byte[bis.available()];
-			bis.read(input);
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			close(bis);
-		}
-		
-		String sourceCode = null;
-		if (input != null) {
-			sourceCode = new String(input);
-		}
-		
-		return sourceCode;
+		return readFile(new File(fileName));
 	}
 	
 	/**
@@ -319,32 +300,6 @@ public class FileHelper {
 		return sourceCode;
 	}
 	
-	public static void renameFile() {
-		List<File> files = getAllDirectories("outputData/cnn/");
-		files.addAll(getAllDirectories("outputData/encoder/"));
-		
-//		for (File file : files) {
-//			
-//			String fileName = file.getPath();
-//			if ("RAW_CAMEL_TOKENIATION".equals(file.getName())) {
-//				//1
-//				file.renameTo(new File(fileName.replace(file.getName(), "1")));
-//			} else if ("SIMPLIFIED_NLP".equals(file.getName())) {
-//				//2
-//				file.renameTo(new File(fileName.replace(file.getName(), "2")));
-//			} else if ("SIMPLIFIED_NLP(2)".equals(file.getName())) {
-//				//3
-//				file.renameTo(new File(fileName.replace(file.getName(), "3")));
-//			} else if ("TOKENAZATION_WITH_NLP".equals(file.getName())) {
-//				//4
-//				file.renameTo(new File(fileName.replace(file.getName(), "4")));
-//			} else if ("TOKENAZATION_WITH_NLP(2)".equals(file.getName())) {
-//				//5
-//				file.renameTo(new File(fileName.replace(file.getName(), "5")));
-//			}
-//		}
-	}
-	
 	/**
 	 * Output output into a file.
 	 * @param fileName, output file name.
@@ -352,7 +307,19 @@ public class FileHelper {
 	 * @param append, the output data will be appended previous data in the file or not.
 	 */
 	public static void outputToFile(String fileName, StringBuilder data, boolean append) {
+		outputToFile(fileName, data.toString(), append);
+	}
+	
+	public static void outputToFile(File file, StringBuilder data, boolean append) {
+		outputToFile(file, data.toString(), append);
+	}
+	
+	public static void outputToFile(String fileName, String data, boolean append) {
 		File file = new File(fileName);
+		outputToFile(file, data, append);
+	}
+	
+	public static void outputToFile(File file, String data, boolean append) {
 		FileWriter writer = null;
 		BufferedWriter bw = null;
 
@@ -365,7 +332,7 @@ public class FileHelper {
 			}
 			writer = new FileWriter(file, append);
 			bw = new BufferedWriter(writer);
-			bw.write(data.toString());
+			bw.write(data);
 			bw.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
