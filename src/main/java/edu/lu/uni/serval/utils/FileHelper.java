@@ -374,5 +374,19 @@ public class FileHelper {
 			e.printStackTrace();
 		}
 	}
+
+	public static List<File> getAllSubDirectories(String fileName) {
+		File file = new File(fileName);
+		List<File> subDirectories = new ArrayList<>();
+		if (file.exists()) {
+			File[] files = file.listFiles();
+			for (File f : files) {
+				if (f.isDirectory()) {
+					subDirectories.add(f);
+				}
+			}
+		}
+		return subDirectories;
+	}
 	
 }

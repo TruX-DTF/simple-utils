@@ -31,7 +31,6 @@ public class ListSorter<T extends Comparable<? super T>> {
 				});
 			}
 		} catch (Exception e) {
-			System.out.println(e.toString());
 			return null;
 		}
 		return this.list;
