@@ -20,15 +20,16 @@ public class ReturnType {
 	public static final String OTHER = "other";
 	
 	public String readReturnType(String line, ReturnTypeClassification classification) {
+		String returnType = readType(line);
 		switch (classification) {
 		case ALL:
-			return this.readAllReturnTypes(line);
+			return this.readAllReturnTypes(returnType);
 		case ALL_A_C:
-			return this.readAllReturnTypes_(line);
+			return this.readAllReturnTypes_(returnType);
 		case BASIC:
-			return this.readBasicReturnTypes(line);
+			return this.readBasicReturnTypes(returnType);
 		case ABSTRACT:
-			return this.readAbstractReturnType(line);
+			return this.readAbstractReturnType(returnType);
 		default:
 			return "";
 		}
@@ -40,9 +41,7 @@ public class ReturnType {
 	 * @param line, 
 	 * @return
 	 */
-	private String readAbstractReturnType(String line) {
-		String returnType = readType(line);
-		
+	private String readAbstractReturnType(String returnType) {
 		if ("void".equals(returnType)) {
 			returnType = VOID;
 		} else if ("boolean".equals(returnType) || "Boolean".equals(returnType)) {
@@ -98,9 +97,7 @@ public class ReturnType {
 	 * @param line, 
 	 * @return
 	 */
-	private String readAllReturnTypes(String line) {
-		String returnType = readType(line);
-		
+	private String readAllReturnTypes(String returnType) {
 		if ("void".equals(returnType)) {
 			returnType = VOID;
 		} else if ("boolean".equals(returnType) || "Boolean".equals(returnType)) {
@@ -133,9 +130,7 @@ public class ReturnType {
 	 * @param line, 
 	 * @return
 	 */
-	 private String readAllReturnTypes_(String line) {
-		String returnType = readType(line);
-		
+	 private String readAllReturnTypes_(String returnType) {
 		if ("void".equals(returnType)) {
 			returnType = VOID;
 		} else if ("boolean".equals(returnType) || "Boolean".equals(returnType)) {
@@ -182,9 +177,7 @@ public class ReturnType {
 	 * @param line, 
 	 * @return
 	 */
-	 private String readBasicReturnTypes(String line) {
-		String returnType = readType(line);
-		
+	 private String readBasicReturnTypes(String returnType) {
 		if ("void".equals(returnType)) {
 			returnType = VOID;
 		} else if ("boolean".equals(returnType) || "Boolean".equals(returnType)) {
@@ -280,74 +273,74 @@ public class ReturnType {
 		return returnType;
 	}
 	
-	public String readType2(String returnType) {
-		int index = returnType.indexOf("<");
-		if (index != -1) {
-			if (index == 0) {
-				log.error("######:" + returnType);
-				while (index == 0) {
-					returnType = returnType.substring(returnType.indexOf(">") + 1).trim();
-					index = returnType.indexOf(">");
-				}
-				index = returnType.indexOf("<");
-				if (index == -1) index = returnType.length();
-			}
-			returnType = returnType.substring(0, index);
-		}
-
-		return returnType;
-	}
+//	public String readType2(String returnType) {
+//		int index = returnType.indexOf("<");
+//		if (index != -1) {
+//			if (index == 0) {
+//				log.error("######:" + returnType);
+//				while (index == 0) {
+//					returnType = returnType.substring(returnType.indexOf(">") + 1).trim();
+//					index = returnType.indexOf(">");
+//				}
+//				index = returnType.indexOf("<");
+//				if (index == -1) index = returnType.length();
+//			}
+//			returnType = returnType.substring(0, index);
+//		}
+//
+//		return returnType;
+//	}
 	
-	/**
-	 * Read all return type of each method.
-	 * Only abstract arrays return type and Exception return type.
-	 * @param line, 
-	 * @return
-	 */
-	public String readAllReturnTypes2(String returnType) {
-		if (returnType.endsWith("[]")) return "Arrays";
-		
-		int index = returnType.indexOf("<");
-		if (index != -1) {
-			if (index == 0) {
-				log.error("######:" + returnType);
-				while (index == 0) {
-					returnType = returnType.substring(returnType.indexOf(">") + 1).trim();
-					index = returnType.indexOf(">");
-				}
-				index = returnType.indexOf("<");
-				if (index == -1)
-					index = returnType.length();
-			}
-			returnType = returnType.substring(0, index);
-		}
-		index = returnType.lastIndexOf(".");
-		if (index != -1) { // && returnType.startsWith("java.")) {
-			log.error("###:" + returnType);
-			returnType = returnType.substring(index + 1);
-		}
-
-		if ("void".equals(returnType)) {
-			returnType = VOID;
-		} else if ("boolean".equals(returnType) || "Boolean".equals(returnType)) {
-			returnType = BOOLEAN;
-		} else if ("Integer".equals(returnType) || "int".equals(returnType)) {
-			returnType = INTEGER;
-		} else if ("short".equals(returnType) || "Short".equals(returnType)) {
-			returnType = "short"; 
-		} else if ("long".equals(returnType) || "Long".equals(returnType)) {
-			returnType = "long";
-		} else if ("byte".equals(returnType) || "Byte".equals(returnType)) {
-			returnType = "byte";
-		} else if ("float".equals(returnType) || "Float".equals(returnType)) {
-			returnType = "float";
-		} else if ("double".equals(returnType) || "Double".equals(returnType)) {
-			returnType = "double";
-		} else if (returnType.endsWith("Exception")) {
-			returnType = "Exception";
-		} else if (returnType.contains("[]")) {
-			returnType = "Arrays";
-		}
-		return returnType;
-	}
+//	/**
+//	 * Read all return type of each method.
+//	 * Only abstract arrays return type and Exception return type.
+//	 * @param line, 
+//	 * @return
+//	 */
+//	public String readAllReturnTypes2(String returnType) {
+//		if (returnType.endsWith("[]")) return "Arrays[]";
+//		
+//		int index = returnType.indexOf("<");
+//		if (index != -1) {
+//			if (index == 0) {
+//				log.error("######:" + returnType);
+//				while (index == 0) {
+//					returnType = returnType.substring(returnType.indexOf(">") + 1).trim();
+//					index = returnType.indexOf(">");
+//				}
+//				index = returnType.indexOf("<");
+//				if (index == -1)
+//					index = returnType.length();
+//			}
+//			returnType = returnType.substring(0, index);
+//		}
+//		index = returnType.lastIndexOf(".");
+//		if (index != -1) { // && returnType.startsWith("java.")) {
+//			log.error("###:" + returnType);
+//			returnType = returnType.substring(index + 1);
+//		}
+//
+//		if ("void".equals(returnType)) {
+//			returnType = VOID;
+//		} else if ("boolean".equals(returnType) || "Boolean".equals(returnType)) {
+//			returnType = BOOLEAN;
+//		} else if ("Integer".equals(returnType) || "int".equals(returnType)) {
+//			returnType = INTEGER;
+//		} else if ("short".equals(returnType) || "Short".equals(returnType)) {
+//			returnType = "short"; 
+//		} else if ("long".equals(returnType) || "Long".equals(returnType)) {
+//			returnType = "long";
+//		} else if ("byte".equals(returnType) || "Byte".equals(returnType)) {
+//			returnType = "byte";
+//		} else if ("float".equals(returnType) || "Float".equals(returnType)) {
+//			returnType = "float";
+//		} else if ("double".equals(returnType) || "Double".equals(returnType)) {
+//			returnType = "double";
+////		} else if (returnType.endsWith("Exception")) {
+////			returnType = "Exception";
+//		} else if (returnType.contains("[]")) {
+//			returnType = "Arrays[]";
+//		}
+//		return returnType;
+//	}
 }
