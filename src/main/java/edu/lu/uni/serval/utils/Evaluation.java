@@ -34,7 +34,7 @@ public class Evaluation {
 
 	private void outputResults() {
 		System.out.println("==========================================\n");
-		System.out.println("Accuraty:   " + FORMAT.format(accuracy * 100) + "%");
+		System.out.println("Accuracy:   " + FORMAT.format(accuracy * 100) + "%");
 		System.out.println("Precision:  " + FORMAT.format(precision * 100) + "%");
 		System.out.println("Recall:     " + FORMAT.format(recall * 100) + "%");
 		System.out.println("F1-measure: " + FORMAT.format(f1_measure * 100) + "%");
