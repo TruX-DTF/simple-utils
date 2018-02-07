@@ -33,12 +33,12 @@ public class Evaluation {
 	}
 
 	private void outputResults() {
-		System.out.println("==========================================\n");
+		System.out.println("==========================================");
 		System.out.println("Accuracy:   " + FORMAT.format(accuracy * 100) + "%");
 		System.out.println("Precision:  " + FORMAT.format(precision * 100) + "%");
 		System.out.println("Recall:     " + FORMAT.format(recall * 100) + "%");
 		System.out.println("F1-measure: " + FORMAT.format(f1_measure * 100) + "%");
-		System.out.println("==========================================\n");
+		System.out.println("==========================================");
 	}
 	public static void main(String[] args) {
 		Evaluation e = new Evaluation(10,9,8,7);
