@@ -87,7 +87,7 @@ public class Distribution {
 		int thirdQuarterIndex = sizesDistribution.size() * 75 / 100;
 		int thirdQuarter = sizesDistribution.get(thirdQuarterIndex);
 		int lowerWhisker = firstQuarter - (int) (1.5 * (thirdQuarter - firstQuarter));
-		return lowerWhisker < 0 ? 0 : lowerWhisker;
+		return lowerWhisker < sizesDistribution.get(0) ? sizesDistribution.get(0) : lowerWhisker;
 	}
 
 	private static int upperWhisker(List<Integer> sizesDistribution) {
