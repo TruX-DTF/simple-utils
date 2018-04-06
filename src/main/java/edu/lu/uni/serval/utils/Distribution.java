@@ -82,9 +82,9 @@ public class Distribution {
 		sizes.addAll(sizesDistribution);
 		ListSorter<Integer> sorter = new ListSorter<Integer>(sizes);
 		sizesDistribution = sorter.sortAscending();
-		int firstQuarterIndex = sizesDistribution.size() * 25 / 100;
+		int firstQuarterIndex = (int)(sizesDistribution.size() * 25.0 / 100);
 		int firstQuarter = sizesDistribution.get(firstQuarterIndex);
-		int thirdQuarterIndex = sizesDistribution.size() * 75 / 100;
+		int thirdQuarterIndex = (int)(sizesDistribution.size() * 75.0 / 100);
 		int thirdQuarter = sizesDistribution.get(thirdQuarterIndex);
 		int lowerWhisker = firstQuarter - (int) (1.5 * (thirdQuarter - firstQuarter));
 		return lowerWhisker < sizesDistribution.get(0) ? sizesDistribution.get(0) : lowerWhisker;
@@ -95,9 +95,9 @@ public class Distribution {
 		sizes.addAll(sizesDistribution);
 		ListSorter<Integer> sorter = new ListSorter<Integer>(sizes);
 		sizesDistribution = sorter.sortAscending();
-		int firstQuarterIndex = sizesDistribution.size() * 25 / 100;
+		int firstQuarterIndex = (int)(sizesDistribution.size() * 25.0 / 100);
 		int firstQuarter = sizesDistribution.get(firstQuarterIndex);
-		int thirdQuarterIndex = sizesDistribution.size() * 75 / 100;
+		int thirdQuarterIndex = (int)(sizesDistribution.size() * 75.0 / 100);
 		int thirdQuarter = sizesDistribution.get(thirdQuarterIndex);
 		int upperWhisker = thirdQuarter + (int) (1.5 * (thirdQuarter - firstQuarter));
 		int maxSize = sizesDistribution.get(sizesDistribution.size() - 1);
@@ -109,7 +109,7 @@ public class Distribution {
 		sizes.addAll(sizesDistribution);
 		ListSorter<Integer> sorter = new ListSorter<Integer>(sizes);
 		sizesDistribution = sorter.sortAscending();
-		int firstQuarterIndex = sizesDistribution.size() * 25 / 100;
+		int firstQuarterIndex = (int)(sizesDistribution.size() * 25.0 / 100);
 		int firstQuarter = sizesDistribution.get(firstQuarterIndex);
 		return firstQuarter;
 	}
@@ -119,7 +119,7 @@ public class Distribution {
 		sizes.addAll(sizesDistribution);
 		ListSorter<Integer> sorter = new ListSorter<Integer>(sizes);
 		sizesDistribution = sorter.sortAscending();
-		int thirdQuarterIndex = sizesDistribution.size() * 75 / 100;
+		int thirdQuarterIndex = (int)(sizesDistribution.size() * 75.0 / 100);
 		int thirdQuarter = sizesDistribution.get(thirdQuarterIndex);
 		return thirdQuarter;
 	}
