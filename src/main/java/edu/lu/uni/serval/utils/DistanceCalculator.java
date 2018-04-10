@@ -47,8 +47,11 @@ public class DistanceCalculator {
 			mag1 += Math.pow(targetPoint[i], 2);
 			mag2 += Math.pow(selfPoint[i], 2);
 		}
-
-		sim = dot / Double.valueOf((Math.sqrt(mag1) * Math.sqrt(mag2)));
+		Double divisor = Double.valueOf((Math.sqrt(mag1) * Math.sqrt(mag2)));
+		if (Math.abs(divisor) < 2 * Double.MIN_VALUE) {
+			return Double.NaN;
+		}
+		sim = dot / divisor;
 		return Double.valueOf(sim);
 	}
 
