@@ -1,37 +1,42 @@
-package edu.lu.uni.serval.utils;
+package edu.lu.uni.serval.utils.similarity;
 
 import java.util.List;
 
 /**
- * Compute the levenshtein distance between two strings: the source string (s) and the target string (t).
- * 
+ * Calculate the similarities between two strings or two lists of data with the Levenshtein distance.
+ * https://en.wikipedia.org/wiki/Levenshtein_distance
  * The distance is the number of deletions, insertions, or substitutions required to transform s into t.
+ * 
+ * S_v1_v2(i, j) = 
+ * 		If min(i, j) == 0 then
+ * 			max(i, j);
+ * 		Else
+ * 			min(S_v1_v2(i - 1, j) + 1,
+ * 				S_v1_v2(i, j - 1) + 1,
+ * 				S_v1_v2(i - 1, j - 1) + (v1_i != v2_j) ? 1 : 0);
+ * 		EndIf
+ * 
+ * The similarity between v1 and v2 is inversely proportional to the value of S_v1_v2(i, j).
  * 
  * @author kui.liu
  *
  */
-public class LevenshteinDistance {
+public class LevenshteinDistance implements Similarity {
 
-	public static void main(String[] args) {
-		// Test.
-		String a = "gumbo";
-		String b = "gaumbol";
-		System.out.println(new LevenshteinDistance().computeLevenshteinDistance(a, b));
-	}
-	
 	/**
 	 * Compute the levenshtein distance of two strings.
 	 * @param s, the source string.
 	 * @param t, the target string.
 	 * @return distance, The distance is the number of deletions, insertions, or substitutions required to transform s into t
 	 */
-	public int computeLevenshteinDistance(String s, String t) {
+	@Override
+	public Double similarity(final String s, final String t) {
 		int lengthS = s.length();
 		int lengthT = t.length();
 
 		// Step 1
-		if (lengthS == 0) return lengthT;
-		if (lengthT == 0) return lengthS;
+		if (lengthS == 0) return Double.valueOf(lengthT);
+		if (lengthT == 0) return Double.valueOf(lengthT);
 		
 		// Step 2
 		int d[][] = new int[lengthS + 1][lengthT + 1];// matrix
@@ -66,59 +71,9 @@ public class LevenshteinDistance {
 		}
 
 		// Step 7
-		return d[lengthS][lengthT];
+		return Double.valueOf(d[lengthS][lengthT]);
 	}
 	
-	/**
-	 * Compute the levenshtein distance of two string lists.
-	 * @param s, the source string list.
-	 * @param t, the target string list.
-	 * @return distance, The distance is the number of deletions, insertions, or substitutions required to transform s into t
-	 */
-	public int computeLevenshteinDistance(List<String> s, List<String> t) {
-		int sizeS = s.size();
-		int sizeT = t.size();
-
-		// Step 1
-		if (sizeS == 0) return sizeT;
-		if (sizeT == 0) return sizeS;
-		
-		// Step 2
-		int d[][] = new int[sizeS + 1][sizeT + 1];// matrix
-		int indexS; // iterates through s
-		int indexT; // iterates through t
-		for (indexS = 0; indexS <= sizeS; indexS++) d[indexS][0] = indexS;
-		for (indexT = 0; indexT <= sizeT; indexT++) d[0][indexT] = indexT;
-
-		// Step 3
-		String iCharOfS; // i_th string of s
-		String jCharOfT; // j_th string of t
-		int cost; // cost
-		for (indexS = 1; indexS <= sizeS; indexS++) {
-			iCharOfS = s.get(indexS - 1);
-
-			// Step 4
-			for (indexT = 1; indexT <= sizeT; indexT++) {
-				jCharOfT = t.get(indexT - 1);
-				
-				// Step 5
-				if (iCharOfS == jCharOfT) {
-					cost = 0;
-				} else {
-					cost = 1;
-				}
-
-				// Step 6
-				d[indexS][indexT] = getMinimumValue(d[indexS - 1][indexT] + 1, 
-													d[indexS][indexT - 1] + 1, 
-													d[indexS - 1][indexT - 1] + cost);
-			}
-		}
-
-		// Step 7
-		return d[sizeS][sizeT];
-	}
-
 	/**
 	 * Get the minimum value of three values.
 	 * @param a
@@ -133,6 +88,51 @@ public class LevenshteinDistance {
 		if (c < minimumValue)
 			minimumValue = c;
 		return minimumValue;
+	}
+
+	@Override
+	public <T> Double similarity(final List<T> s, final List<T> t) {
+		int sizeS = s.size();
+		int sizeT = t.size();
+
+		// Step 1
+		if (sizeS == 0) return Double.valueOf(sizeT);
+		if (sizeT == 0) return Double.valueOf(sizeS);
+		
+		// Step 2
+		int d[][] = new int[sizeS + 1][sizeT + 1];// matrix
+		int indexS; // iterates through s
+		int indexT; // iterates through t
+		for (indexS = 0; indexS <= sizeS; indexS++) d[indexS][0] = indexS;
+		for (indexT = 0; indexT <= sizeT; indexT++) d[0][indexT] = indexT;
+
+		// Step 3
+		T iObjectOfS; // i_th object of s
+		T jObjectOfT; // j_th object of t
+		int cost; // cost
+		for (indexS = 1; indexS <= sizeS; indexS++) {
+			iObjectOfS = s.get(indexS - 1);
+
+			// Step 4
+			for (indexT = 1; indexT <= sizeT; indexT++) {
+				jObjectOfT = t.get(indexT - 1);
+				
+				// Step 5
+				if (iObjectOfS.equals(jObjectOfT)) {
+					cost = 0;
+				} else {
+					cost = 1;
+				}
+
+				// Step 6
+				d[indexS][indexT] = getMinimumValue(d[indexS - 1][indexT] + 1, 
+													d[indexS][indexT - 1] + 1, 
+													d[indexS - 1][indexT - 1] + cost);
+			}
+		}
+
+		// Step 7
+		return Double.valueOf(d[sizeS][sizeT]);
 	}
 	
 }
