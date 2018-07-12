@@ -45,12 +45,8 @@ public class QGram implements Similarity {
      */
     @Override
     public Double similarity(final String str1, final String str2) {
-        if (str1 == null) {
-            throw new NullPointerException("s1 must not be null");
-        }
-
-        if (str2 == null) {
-            throw new NullPointerException("s2 must not be null");
+        if (str1 == null || str2 == null) {
+            return Double.NaN;
         }
 
         if (str1.equals(str2)) {
@@ -65,12 +61,8 @@ public class QGram implements Similarity {
 
 	@Override
 	public <T> Double similarity(List<T> s1, List<T> s2) {
-		if (s1 == null) {
-            throw new NullPointerException("s1 must not be null");
-        }
-
-        if (s2 == null) {
-            throw new NullPointerException("s2 must not be null");
+		if (s1 == null || s2 == null) {
+            return Double.NaN;
         }
 
         if (s1.equals(s2)) {

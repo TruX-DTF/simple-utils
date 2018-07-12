@@ -25,6 +25,7 @@ import java.util.List;
  *
  */
 public class DamerauLevenshteinDistance implements Similarity {
+	
 	/**
      * Calculates the string distance between source and target strings using the Damerau-Levenshtein algorithm. 
      * The distance is case-sensitive.
@@ -37,7 +38,7 @@ public class DamerauLevenshteinDistance implements Similarity {
 	@Override
     public Double similarity(final String source, final String target) {
         if (source == null || target == null) {
-            throw new IllegalArgumentException("Parameter must not be null");
+            return Double.NaN;
         }
         if(source.equals(target)) return 0d;
         
@@ -73,7 +74,7 @@ public class DamerauLevenshteinDistance implements Similarity {
 	@Override
     public <T> Double similarity(final List<T> source, final List<T> target) {
         if (source == null || target == null) {
-            throw new IllegalArgumentException("Parameter must not be null");
+        	return Double.NaN;
         }
         int sourceLength = source.size();
         int targetLength = target.size();

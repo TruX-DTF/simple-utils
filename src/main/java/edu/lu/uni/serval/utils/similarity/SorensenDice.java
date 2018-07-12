@@ -18,6 +18,8 @@ public class SorensenDice extends Jaccard {
 
 	@Override
 	public Double similarity(final String str1, final String str2) {
+		if (str1 == null || str2 == null) return Double.NaN;
+		
 		List<String> l1 = toStringList(str1);
 		List<String> l2 = toStringList(str2);
 		return similarity(l1, l2);
@@ -25,6 +27,8 @@ public class SorensenDice extends Jaccard {
 
 	@Override
 	public <T> Double similarity(final List<T> l1, final List<T> l2) {
+		if (l1 == null || l2 == null) return Double.NaN;
+		
 		List<T> intersectionList = l1.stream().filter(t -> l2.contains(t)).collect(Collectors.toList());
 		int intersectionNum = intersectionList.size();
 		

@@ -29,12 +29,8 @@ public class OptimalStringAlignment implements Similarity {
      */
 	@Override
     public Double similarity(final String str1, final String str2) {
-        if (str1 == null) {
-            throw new NullPointerException("s1 must not be null");
-        }
-
-        if (str2 == null) {
-            throw new NullPointerException("s2 must not be null");
+        if (str1 == null || str2 == null) {
+        	return Double.NaN;
         }
 
         if (str1.equals(str2)) {
@@ -98,12 +94,8 @@ public class OptimalStringAlignment implements Similarity {
 
 	@Override
 	public <T> Double similarity(List<T> l1, List<T> l2) {
-		if (l1 == null) {
-            throw new NullPointerException("s1 must not be null");
-        }
-
-        if (l2 == null) {
-            throw new NullPointerException("s2 must not be null");
+		if (l1 == null || l2 == null) {
+			return Double.NaN;
         }
 
         if (l1.equals(l2)) {

@@ -39,15 +39,13 @@ public class Sift4 implements Similarity {
      */
     @Override
     public Double similarity(final String s1, final String s2) {
-        if (s1 == null || s1.isEmpty()) {
-            if (s2 == null) {
-                return 0d;
-            }
-
+    	if (s1 == null || s2 == null) return Double.NaN;
+    	
+        if (s1.isEmpty()) {
             return Double.valueOf(s2.length());
         }
 
-        if (s2 == null || s2.isEmpty()) {
+        if (s2.isEmpty()) {
             return Double.valueOf(s1.length());
         }
 
@@ -145,15 +143,13 @@ public class Sift4 implements Similarity {
 
 	@Override
 	public <T> Double similarity(List<T> l1, List<T> l2) {
-		if (l1 == null || l1.isEmpty()) {
-            if (l2 == null) {
-                return 0d;
-            }
-
+		if (l1 == null || l2 == null) return Double.NaN;
+		
+		if (l1.isEmpty()) {
             return Double.valueOf(l2.size());
         }
 
-        if (l2 == null || l2.isEmpty()) {
+        if (l2.isEmpty()) {
             return Double.valueOf(l1.size());
         }
 

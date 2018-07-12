@@ -8,6 +8,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * https://en.wikipedia.org/wiki/Most_frequent_k_characters
+ * 
+ * The similarity between two strings is inversely proportional to the similarity value.
+ * 
+ * @author kui.liu
+ *
+ */
 public class MostFreqKDistance implements Similarity {
 	
 	private int k = 3;
@@ -30,11 +38,15 @@ public class MostFreqKDistance implements Similarity {
 	 * @return distance as integer
 	 */
 	public Double similarity(String str1, String str2) {
+		if (str1 == null || str2 == null) return Double.NaN;
+		
 		return computeSimilarity(mostOcurrencesElement(str1.toCharArray()), mostOcurrencesElement(str2.toCharArray()));
 	}
 
 	@Override
 	public <T> Double similarity(List<T> l1, List<T> l2) {
+		if (l1 == null || l2 == null) return Double.NaN;
+		
 		String str1 = convertToString(l1);
 		String str2 = convertToString(l2);
 //		return computeSimilarity(mostOcurrencesElement(l1), mostOcurrencesElement(l2));

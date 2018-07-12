@@ -19,6 +19,9 @@ public class Jaccard implements Similarity {
 
 	@Override
 	public <T> Double similarity(final List<T> l1, final List<T> l2) {
+		
+		if (l1 == null || l2 == null) return Double.NaN;
+		
 		/*
 		 *  FIXME: if there are several same objects in one list, what should we do?
 		 *  If so, it is preferred to use Kulczynski-2 algorithm.
@@ -37,6 +40,8 @@ public class Jaccard implements Similarity {
 
 	@Override
 	public Double similarity(final String str1, final String str2) {
+		if (str1 == null || str2 == null) return Double.NaN;
+		
 		List<String> l1 = toStringList(str1);
 		List<String> l2 = toStringList(str2);
 		return similarity(l1, l2);

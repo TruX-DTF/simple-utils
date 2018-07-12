@@ -31,6 +31,8 @@ public class LevenshteinDistance implements Similarity {
 	 */
 	@Override
 	public Double similarity(final String s, final String t) {
+		if (s == null || t == null) return Double.NaN;;
+		
 		int lengthS = s.length();
 		int lengthT = t.length();
 
@@ -92,6 +94,8 @@ public class LevenshteinDistance implements Similarity {
 
 	@Override
 	public <T> Double similarity(final List<T> s, final List<T> t) {
+		if (s == null || t == null) return Double.NaN;
+		
 		int sizeS = s.size();
 		int sizeT = t.size();
 

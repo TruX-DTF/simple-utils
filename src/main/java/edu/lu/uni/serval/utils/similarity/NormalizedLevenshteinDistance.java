@@ -3,7 +3,7 @@ package edu.lu.uni.serval.utils.similarity;
 import java.util.List;
 
 /**
- * The similarity between two strings is inversely proportional to the simialrity value.
+ * The similarity between two strings is inversely proportional to the similarity value.
  * @author kui.liu
  *
  */
@@ -13,12 +13,8 @@ public class NormalizedLevenshteinDistance implements Similarity {
 
 	@Override
 	public Double similarity(String str1, String str2) {
-		if (str1 == null) {
-            throw new NullPointerException("s1 must not be null");
-        }
-
-        if (str2 == null) {
-            throw new NullPointerException("s2 must not be null");
+		if (str1 == null || str2 == null) {
+			return Double.NaN;
         }
 
         if (str1.equals(str2)) {
@@ -35,12 +31,8 @@ public class NormalizedLevenshteinDistance implements Similarity {
 
 	@Override
 	public <T> Double similarity(List<T> l1, List<T> l2) {
-		if (l1 == null) {
-            throw new NullPointerException("s1 must not be null");
-        }
-
-        if (l2 == null) {
-            throw new NullPointerException("s2 must not be null");
+		if (l1 == null || l2 == null) {
+			return Double.NaN;
         }
 
         if (l1.equals(l2)) {
