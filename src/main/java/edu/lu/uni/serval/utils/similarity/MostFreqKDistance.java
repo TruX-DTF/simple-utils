@@ -126,29 +126,31 @@ public class MostFreqKDistance implements Similarity {
 	/**
 	 * Calculates the similarity between two input strings
 	 * 
-	 * @param input string 1
-	 * @param input string 2
+	 * @param input string 1: A1B2
+	 * @param input string 2: A2B1
 	 * @param maximum possible limit value
 	 * @return distance as integer
 	 */
-	public Double computeSimilarity(String str1, String str2) {
+	private Double computeSimilarity(String str1, String str2) {
+		int strLength1 = str1.length();
+		int strLength2 = str2.length();
 		int similarity = 0;
 		int k = 0;
-		for (int i = 0; i < str1.length(); i = k) {
+		for (int i = 0; i < strLength1; i = k) {
 			k++;
 			if (Character.isLetter(str1.charAt(i))) {
 				int pos = str2.indexOf(str1.charAt(i));
 
 				if (pos >= 0) {
 					String digitStr1 = "";
-					while (k < str1.length() && !Character.isLetter(str1.charAt(k))) {
+					while (k < strLength1 && Character.isDigit(str1.charAt(k))) {
 						digitStr1 += str1.charAt(k);
 						k++;
 					}
 
 					int k2 = pos + 1;
 					String digitStr2 = "";
-					while (k2 < str2.length() && !Character.isLetter(str2.charAt(k2))) {
+					while (k2 < strLength2 && Character.isDigit(str2.charAt(k2))) {
 						digitStr2 += str2.charAt(k2);
 						k2++;
 					}
@@ -186,4 +188,5 @@ public class MostFreqKDistance implements Similarity {
 
 		return countMap;
 	}
+	
 }
