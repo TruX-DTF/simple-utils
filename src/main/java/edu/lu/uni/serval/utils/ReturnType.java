@@ -1,8 +1,5 @@
 package edu.lu.uni.serval.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class ReturnType {
 	
 	public enum ReturnTypeClassification {
@@ -12,7 +9,7 @@ public class ReturnType {
 		ABSTRACT, // Abstract all types into 12 types.
 	}
 	
-	private static Logger log = LoggerFactory.getLogger(ReturnType.class);
+//	private static Logger log = LoggerFactory.getLogger(ReturnType.class);
 	
 	public static final String VOID = "void";
 	public static final String BOOLEAN = "boolean";
@@ -58,27 +55,41 @@ public class ReturnType {
 			returnType = "double";
 		} else if ("double".equals(returnType) || "Double".equals(returnType)) {
 			returnType = "double";
+		} else if ("char".equals(returnType) || "Character".equals(returnType)) {
+			returnType = INTEGER;
 		} else if ("String".equals(returnType)) {
 			returnType = "String";
 		} else if ("Object".equals(returnType)) {
 			returnType = "Object";
 		} else if ("Class".equals(returnType)) {
 			returnType = "Class";
-		} else if ("char".equals(returnType)) {
-			returnType = INTEGER;
 		} else if (returnType.endsWith("Exception")) {
 			returnType = "Exception";
 		} else if (returnType.contains("[]")) {
 			returnType = "Arrays";
 		} else {
 			if (returnType.endsWith("List")) {
-				returnType = "Collection";	
+				returnType = "Collection";
+//				if ("ArrayList".equals(returnType) || "LinkedList".equals(returnType)) {
+//					returnType = "Collection";					
+//				}
 			} else if (returnType.endsWith("Map")) {
 				returnType = "Map";
+//				if ("HashMap".equals(returnType) || "LinkedHashMap".equals(returnType) || "SortedMap".equals(returnType)
+//						|| "TreeMap".equals(returnType) || "WeakHashMap".equals(returnType) || "IdentityHashMap".equals(returnType) || "EnumMap".equals(returnType)) {
+//					returnType = "Map";
+//				}
 			} else if (returnType.endsWith("Set")) {
 				returnType = "Collection";
+//				if ("HashSet".equals(returnType) || "LinkedHashSet".equals(returnType) || "SortedSet".equals(returnType)
+//						|| "TreeSet".equals(returnType) || "EnumSet".equals(returnType)) {
+//					returnType = "Collection";
+//				}
 			} else if (returnType.endsWith("Queue") || returnType.endsWith("Deque")) {
 				returnType = "Collection";
+//				if ("PriorityQueue".equals(returnType) || "Deque".equals(returnType) || "ArrayDeque".equals(returnType)) {
+//					returnType = "Collection";
+//				}
 			} else if (returnType.endsWith("Vector") || returnType.equals("Stack")) {
 				returnType = "Collection";
 			} else if (returnType.endsWith("Hashtable") || returnType.equals("Properties")) {
@@ -114,6 +125,8 @@ public class ReturnType {
 			returnType = "float";
 		} else if ("double".equals(returnType) || "Double".equals(returnType)) {
 			returnType = "double";
+		} else if ("char".equals(returnType) || "Character".equals(returnType)) {
+			returnType = "char";
 //		} else if (returnType.endsWith("Exception")) {
 //			returnType = "Exception";
 //		} else if (returnType.contains("[]")) {
@@ -147,6 +160,8 @@ public class ReturnType {
 			returnType = "double";
 		} else if ("double".equals(returnType) || "Double".equals(returnType)) {
 			returnType = "double";
+		} else if ("char".equals(returnType) || "Character".equals(returnType)) {
+			returnType = "char";
 //		} else if (returnType.endsWith("Exception")) {
 //			returnType = "Exception";
 		} else if (returnType.contains("[]")) {
@@ -154,12 +169,26 @@ public class ReturnType {
 		} else {
 			if (returnType.endsWith("List")) {
 				returnType = "Collection";	
+//				if ("ArrayList".equals(returnType) || "LinkedList".equals(returnType)) {
+//					returnType = "Collection";					
+//				}
 			} else if (returnType.endsWith("Map")) {
 				returnType = "Map";
+//				if ("HashMap".equals(returnType) || "LinkedHashMap".equals(returnType) || "SortedMap".equals(returnType)
+//						|| "TreeMap".equals(returnType) || "WeakHashMap".equals(returnType) || "IdentityHashMap".equals(returnType) || "EnumMap".equals(returnType)) {
+//					returnType = "Map";
+//				}
 			} else if (returnType.endsWith("Set")) {
 				returnType = "Collection";
+//				if ("HashSet".equals(returnType) || "LinkedHashSet".equals(returnType) || "SortedSet".equals(returnType)
+//						|| "TreeSet".equals(returnType) || "EnumSet".equals(returnType)) {
+//					returnType = "Collection";
+//				}
 			} else if (returnType.endsWith("Queue") || returnType.endsWith("Deque")) {
 				returnType = "Collection";
+//				if ("PriorityQueue".equals(returnType) || "Deque".equals(returnType) || "ArrayDeque".equals(returnType)) {
+//					returnType = "Collection";
+//				}
 			} else if (returnType.endsWith("Vector") || returnType.equals("Stack")) {
 				returnType = "Collection";
 			} else if (returnType.endsWith("Hashtable") || returnType.equals("Properties")) {
@@ -194,14 +223,14 @@ public class ReturnType {
 			returnType = "float";
 		} else if ("double".equals(returnType) || "Double".equals(returnType)) {
 			returnType = "double";
+		} else if ("char".equals(returnType) || "Character".equals(returnType)) {
+			returnType = "char";
 		} else if ("String".equals(returnType)) {
 			returnType = "String";
 		} else if ("Object".equals(returnType)) {
 			returnType = "Object";
 		} else if ("Class".equals(returnType)) {
 			returnType = "Class";
-		} else if ("char".equals(returnType)) {
-			returnType = "char";
 		} else if (returnType.endsWith("Exception")) {
 			returnType = "Exception";
 		} else if (returnType.contains("[]")) {
@@ -254,7 +283,7 @@ public class ReturnType {
 		int index = returnType.indexOf("<");
 		if (index != -1) {
 			if (index == 0) {
-				log.error("######:" + returnType);
+//				log.error("######:" + returnType);
 				while (index == 0) {
 					returnType = returnType.substring(returnType.indexOf(">") + 1).trim();
 					index = returnType.indexOf(">");
@@ -266,7 +295,7 @@ public class ReturnType {
 		}
 		index = returnType.lastIndexOf(".");
 		if (index != -1) { // && returnType.startsWith("java.")) {
-			log.error("###:" + returnType);
+//			log.error("###:" + returnType);
 			returnType = returnType.substring(index + 1);
 		}
 
