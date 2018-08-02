@@ -31,14 +31,14 @@ public class MetricLCS implements Similarity {
         }
 
         if (str1.equals(str2)) {
-            return 0d;
+            return 1d;
         }
 
         int maxLength = Math.max(str1.length(), str2.length());
         if (maxLength == 0) {
             return 0d;
         }
-        return 1.0 - (1.0 * lcs.similarity(str1, str2)) / maxLength;
+        return (double) lcs.lcs(str1, str2) / maxLength;//1.0 - (1.0 * lcs.similarity(str1, str2)) / maxLength;
 	}
 
 	@Override
@@ -47,14 +47,14 @@ public class MetricLCS implements Similarity {
 			return Double.NaN;
         }
 
-        if (l1.equals(l2)) {
-            return 0d;
+        if (l1.containsAll(l2) && l2.containsAll(l1)) {
+            return 1d;
         }
 
         int maxSize = Math.max(l1.size(), l2.size());
         if (maxSize == 0) {
             return 0d;
         }
-        return 1.0 - (1.0 * lcs.similarity(l1, l2)) / maxSize;
+        return (double) lcs.lcs(l1, l2) / maxSize;//1.0 - (1.0 * lcs.similarity(l1, l2)) / maxSize;
 	}
 }

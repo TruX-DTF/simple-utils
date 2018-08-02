@@ -41,12 +41,9 @@ public class Sift4 implements Similarity {
     public Double similarity(final String s1, final String s2) {
     	if (s1 == null || s2 == null) return Double.NaN;
     	
-        if (s1.isEmpty()) {
-            return Double.valueOf(s2.length());
-        }
-
-        if (s2.isEmpty()) {
-            return Double.valueOf(s1.length());
+    	if (s1.equals(s2)) return 1d;
+        if (s1.isEmpty() || s2.isEmpty()) {
+            return 0d;//Double.valueOf(s1.length());
         }
 
         int l1 = s1.length();
@@ -138,19 +135,16 @@ public class Sift4 implements Similarity {
         }
         lcss += local_cs;
         // add the cost of transpositions to the final result
-        return Double.valueOf(Math.round(Math.max(l1, l2) - lcss + trans));
+        return 1d - (double) Math.round(Math.max(l1, l2) - lcss + trans) / l1;// Math.round(Math.max(l1, l2) - lcss + trans)
     }
 
 	@Override
 	public <T> Double similarity(List<T> l1, List<T> l2) {
 		if (l1 == null || l2 == null) return Double.NaN;
 		
-		if (l1.isEmpty()) {
-            return Double.valueOf(l2.size());
-        }
-
-        if (l2.isEmpty()) {
-            return Double.valueOf(l1.size());
+		if (l1.containsAll(l2)) return 1d;
+		if (l1.isEmpty() || l2.isEmpty()) {
+            return 0d;
         }
 
         int s1 = l1.size();
@@ -243,7 +237,7 @@ public class Sift4 implements Similarity {
         }
         lcss += local_cs;
         // add the cost of transpositions to the final result
-        return Double.valueOf(Math.round(Math.max(s1, s2) - lcss + trans));
+        return 1d - (double) Math.round(Math.max(s1, s2) - lcss + trans) / s1;//Double.valueOf(Math.round(Math.max(s1, s2) - lcss + trans));
 	}
 	
 	 /**

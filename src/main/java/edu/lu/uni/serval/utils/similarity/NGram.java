@@ -38,7 +38,7 @@ public class NGram implements Similarity {
         }
 
         if (str1.equals(str2)) {
-            return 0d;
+            return 1d;
         }
 
         final char special = '\n';
@@ -46,7 +46,7 @@ public class NGram implements Similarity {
         final int tl = str2.length();
 
         if (sl == 0 || tl == 0) {
-            return 1d;
+            return 0d;
         }
 
         int cost = 0;
@@ -124,7 +124,7 @@ public class NGram implements Similarity {
 
         // our last action in the above loop was to switch d and p, so p now
         // actually has the most recent cost counts
-        return Double.valueOf(p[sl] / Math.max(tl, sl));
+        return 1 - Double.valueOf(p[sl] / Math.max(tl, sl));
     }
 
 	@Override
@@ -133,15 +133,15 @@ public class NGram implements Similarity {
 			return Double.NaN;
         }
 
-        if (l1.equals(l2)) {
-            return 0d;
+        if (l1.containsAll(l2) && l2.containsAll(l1)) {
+            return 1d;
         }
 
         final int sl = l1.size();
         final int tl = l2.size();
 
         if (sl == 0 || tl == 0) {
-            return 1d;
+            return 0d;
         }
 
         int cost = 0;
@@ -222,6 +222,6 @@ public class NGram implements Similarity {
 
         // our last action in the above loop was to switch d and p, so p now
         // actually has the most recent cost counts
-        return Double.valueOf(p[sl] / Math.max(tl, sl));
+        return 1 - Double.valueOf(p[sl] / Math.max(tl, sl));
 	}
 }

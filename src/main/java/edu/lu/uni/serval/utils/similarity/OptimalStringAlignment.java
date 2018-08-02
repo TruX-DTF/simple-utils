@@ -34,17 +34,13 @@ public class OptimalStringAlignment implements Similarity {
         }
 
         if (str1.equals(str2)) {
-            return 0d;
+            return 1d;
         }
 
         int n = str1.length(), m = str2.length();
 
-        if (n == 0) {
-            return Double.valueOf(m);
-        }
-
-        if (m == 0) {
-            return Double.valueOf(n);
+        if (n == 0 || m == 0) {
+            return 0d;
         }
 
         // Create the distance matrix H[0 .. s1.length+1][0 .. s2.length+1]
@@ -85,7 +81,7 @@ public class OptimalStringAlignment implements Similarity {
             }
         }
 
-        return Double.valueOf(d[n][m]);
+        return NormalizedSimilarity.normalize(Math.max(n, m) - d[n][m], n, m);//Double.valueOf(d[n][m]);
     }
 
     private int min(final int a, final int b, final int c) {
@@ -98,19 +94,15 @@ public class OptimalStringAlignment implements Similarity {
 			return Double.NaN;
         }
 
-        if (l1.equals(l2)) {
-            return 0d;
+        if (l1.containsAll(l2) && l2.containsAll(l1)) {
+            return 1d;
         }
 
         int n = l1.size();
         int m = l2.size();
 
-        if (n == 0) {
-            return Double.valueOf(m);
-        }
-
-        if (m == 0) {
-            return Double.valueOf(n);
+        if (n == 0 || m == 0) {
+            return 0d;
         }
 
         // Create the distance matrix H[0 .. s1.length+1][0 .. s2.length+1]
@@ -151,6 +143,6 @@ public class OptimalStringAlignment implements Similarity {
             }
         }
 
-        return Double.valueOf(d[n][m]);
+        return NormalizedSimilarity.normalize(Math.max(n, m) - d[n][m], n, m);//Double.valueOf(d[n][m]);
 	}
 }

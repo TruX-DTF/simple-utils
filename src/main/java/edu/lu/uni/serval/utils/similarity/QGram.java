@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
  */
 public class QGram implements Similarity {
 	
-	private int k = 3;
+	private int k = 2;
 	
 	public void setK(int k) {
 		this.k = k;
@@ -50,29 +50,25 @@ public class QGram implements Similarity {
         }
 
         if (str1.equals(str2)) {
-            return 0d;
+            return 1d;
         }
 
         Map<String, Integer> profile1 = getProfile(str1);
         Map<String, Integer> profile2 = getProfile(str2);
 
-        return distance(profile1, profile2);
+        return NormalizedSimilarity.normalize(distance(profile1, profile2), profile1.size(), profile2.size());
     }
 
 	@Override
 	public <T> Double similarity(List<T> s1, List<T> s2) {
-		if (s1 == null || s2 == null) {
-            return Double.NaN;
-        }
-
-        if (s1.equals(s2)) {
-            return 0d;
-        }
+		if (s1 == null || s2 == null) return Double.NaN;
+		if (s1.isEmpty() || s2.isEmpty()) return 0d;
+        if (s1.containsAll(s2) && s2.containsAll(s1)) return 1d;
 
         Map<String, Integer> profile1 = getProfile(s1);
         Map<String, Integer> profile2 = getProfile(s2);
 
-        return distance(profile1, profile2);
+        return NormalizedSimilarity.normalize(distance(profile1, profile2), profile1.size(), profile2.size());//distance(profile1, profile2);
 	}
 
     /**
@@ -82,7 +78,7 @@ public class QGram implements Similarity {
      * @param profile2
      * @return
      */
-    private final Double distance(
+    private final int distance(
             final Map<String, Integer> profile1,
             final Map<String, Integer> profile2) {
 
@@ -105,7 +101,7 @@ public class QGram implements Similarity {
             }
             agg += Math.abs(v1 - v2);
         }
-        return Double.valueOf(agg);
+        return union.size() - agg;
     }
     
     /**

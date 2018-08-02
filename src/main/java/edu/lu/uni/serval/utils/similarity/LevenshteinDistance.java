@@ -31,15 +31,26 @@ public class LevenshteinDistance implements Similarity {
 	 */
 	@Override
 	public Double similarity(final String s, final String t) {
-		if (s == null || t == null) return Double.NaN;;
+		if (s == null || t == null) return Double.NaN;
+		
+		if (s.equals(t)) return 1d;
 		
 		int lengthS = s.length();
 		int lengthT = t.length();
 
 		// Step 1
-		if (lengthS == 0) return Double.valueOf(lengthT);
-		if (lengthT == 0) return Double.valueOf(lengthT);
+		if (lengthS == 0) return 0d;//Double.valueOf(lengthT);
+		if (lengthT == 0) return 0d;//Double.valueOf(lengthT);
+
+		// Step 7
+		return NormalizedSimilarity.normalize(ld(s, t), lengthS, lengthT);//Double.valueOf(d[lengthS][lengthT]);
+	}
+	
+	int ld(String s, String t) {
 		
+		int lengthS = s.length();
+		int lengthT = t.length();
+
 		// Step 2
 		int d[][] = new int[lengthS + 1][lengthT + 1];// matrix
 		int indexS; // iterates through s
@@ -71,11 +82,8 @@ public class LevenshteinDistance implements Similarity {
 													d[indexS - 1][indexT - 1] + cost);
 			}
 		}
-
-		// Step 7
-		return Double.valueOf(d[lengthS][lengthT]);
+		return d[lengthS][lengthT];
 	}
-	
 	/**
 	 * Get the minimum value of three values.
 	 * @param a
@@ -95,14 +103,22 @@ public class LevenshteinDistance implements Similarity {
 	@Override
 	public <T> Double similarity(final List<T> s, final List<T> t) {
 		if (s == null || t == null) return Double.NaN;
+		if (s.containsAll(t) && t.containsAll(s)) return 1d;
 		
 		int sizeS = s.size();
 		int sizeT = t.size();
-
 		// Step 1
-		if (sizeS == 0) return Double.valueOf(sizeT);
-		if (sizeT == 0) return Double.valueOf(sizeS);
+		if (sizeS == 0) return 0d;// Double.valueOf(sizeT);
+		if (sizeT == 0) return 0d;// Double.valueOf(sizeS);
 		
+		// Step 7
+		return NormalizedSimilarity.normalize(ld(s, t), sizeS, sizeT);//Double.valueOf(d[sizeS][sizeT]);
+	}
+	
+	<T> int ld(List<T> s, List<T> t) {
+		int sizeS = s.size();
+		int sizeT = t.size();
+
 		// Step 2
 		int d[][] = new int[sizeS + 1][sizeT + 1];// matrix
 		int indexS; // iterates through s
@@ -134,9 +150,8 @@ public class LevenshteinDistance implements Similarity {
 													d[indexS - 1][indexT - 1] + cost);
 			}
 		}
-
-		// Step 7
-		return Double.valueOf(d[sizeS][sizeT]);
+		
+		return d[sizeS][sizeT];
 	}
 	
 }

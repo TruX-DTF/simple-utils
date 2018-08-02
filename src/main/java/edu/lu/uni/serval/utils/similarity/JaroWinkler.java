@@ -54,7 +54,7 @@ public class JaroWinkler implements Similarity {
 			return Double.NaN;
         }
 
-        if (str1.equals(str2)) {
+        if (str1.containsAll(str2) && str2.containsAll(str1)) {
             return Double.valueOf(1d);
         }
 

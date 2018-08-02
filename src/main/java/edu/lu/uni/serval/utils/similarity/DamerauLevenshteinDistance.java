@@ -40,12 +40,12 @@ public class DamerauLevenshteinDistance implements Similarity {
         if (source == null || target == null) {
             return Double.NaN;
         }
-        if(source.equals(target)) return 0d;
+        if(source.equals(target)) return 1d;
         
         int sourceLength = source.length();
         int targetLength = target.length();
-        if (sourceLength == 0) return Double.valueOf(targetLength);
-        if (targetLength == 0) return Double.valueOf(sourceLength);
+        if (sourceLength == 0) return 0d;//Double.valueOf(targetLength);
+        if (targetLength == 0) return 0d;//Double.valueOf(sourceLength);
         
         int[][] dist = new int[sourceLength + 1][targetLength + 1];
         for (int i = 0; i < sourceLength + 1; i++) {
@@ -68,7 +68,7 @@ public class DamerauLevenshteinDistance implements Similarity {
                 }
             }
         }
-        return Double.valueOf(dist[sourceLength][targetLength]);
+        return NormalizedSimilarity.normalize(dist[sourceLength][targetLength], sourceLength, targetLength);//Double.valueOf(dist[sourceLength][targetLength]);
     }
     
 	@Override
@@ -76,10 +76,12 @@ public class DamerauLevenshteinDistance implements Similarity {
         if (source == null || target == null) {
         	return Double.NaN;
         }
+        if (source.containsAll(target) && target.containsAll(source)) return 1d;
+        
         int sourceLength = source.size();
         int targetLength = target.size();
-        if (sourceLength == 0) return Double.valueOf(targetLength);
-        if (targetLength == 0) return Double.valueOf(sourceLength);
+        if (sourceLength == 0) return 0d;//Double.valueOf(targetLength);
+        if (targetLength == 0) return 0d;//Double.valueOf(sourceLength);
         
         int[][] dist = new int[sourceLength + 1][targetLength + 1];
         for (int i = 0; i < sourceLength + 1; i++) {
@@ -104,7 +106,7 @@ public class DamerauLevenshteinDistance implements Similarity {
                 }
             }
         }
-        return Double.valueOf(dist[sourceLength][targetLength]);
+        return NormalizedSimilarity.normalize(dist[sourceLength][targetLength], sourceLength, targetLength);//Double.valueOf(dist[sourceLength][targetLength]);
     }
 
 }

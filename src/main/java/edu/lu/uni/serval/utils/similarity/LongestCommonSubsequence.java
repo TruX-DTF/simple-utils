@@ -19,13 +19,14 @@ public class LongestCommonSubsequence implements Similarity {
         }
 
         if (str1.equals(str2)) {
-            return 0d;
+            return 1d; // 0d
         }
 
-        return Double.valueOf(str1.length() + str2.length() - 2 * lcs(str1, str2));
+        // str1.length() + str2.length() - 2 * lcs(str1, str2)
+        return NormalizedSimilarity.normalize(lcs(str1, str2), str1.length(), str2.length());
 	}
 
-	private int lcs(String s1, String s2) {
+	int lcs(String s1, String s2) {
         int lengthOfS1 = s1.length();
         int lengthOfS2 = s2.length();
         char[] x = s1.toCharArray();
@@ -53,14 +54,14 @@ public class LongestCommonSubsequence implements Similarity {
 			return Double.NaN;
         }
 
-        if (l1.equals(l2)) {
-            return 0d;
+        if (l1.containsAll(l2) && l2.containsAll(l1)) {
+            return 1d;
         }
 
-        return Double.valueOf(l1.size() + l2.size() - 2 * lcs(l1, l2));
+        return NormalizedSimilarity.normalize(lcs(l1, l2), l1.size(), l2.size());//Double.valueOf(2d * lcs(l1, l2) / (l1.size() + l2.size()));
 	}
 
-	private <T> int lcs(List<T> l1, List<T> l2) {
+	<T> int lcs(List<T> l1, List<T> l2) {
         int sizeOfL1 = l1.size();
         int sizeOfL2 = l2.size();
 

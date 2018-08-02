@@ -18,16 +18,16 @@ import java.util.Map;
  */
 public class MostFreqKDistance implements Similarity {
 	
-	private int k = 3;
-	private int limit = 10;
+	private int k = 100;
+//	private int limit = 10;
 	
 	public void setK(int k) {
 		this.k = k;
 	}
 	
-	public void setLimit(int limit) {
-		this.limit = limit;
-	}
+//	public void setLimit(int limit) {
+//		this.limit = limit;
+//	}
 	
 	/**
 	 * Wrapper function.
@@ -39,18 +39,23 @@ public class MostFreqKDistance implements Similarity {
 	 */
 	public Double similarity(String str1, String str2) {
 		if (str1 == null || str2 == null) return Double.NaN;
-		
-		return computeSimilarity(mostOcurrencesElement(str1.toCharArray()), mostOcurrencesElement(str2.toCharArray()));
+		int strLength1 = str1.length();
+		int strLength2 = str2.length();
+		str1 = mostOcurrencesElement(str1.toCharArray());
+		str2 = mostOcurrencesElement(str2.toCharArray());
+		return NormalizedSimilarity.normalize(computeSimilarity(str1, str2), strLength1, strLength2);
 	}
 
 	@Override
 	public <T> Double similarity(List<T> l1, List<T> l2) {
 		if (l1 == null || l2 == null) return Double.NaN;
+		if (l1.containsAll(l2) && l2.containsAll(l1)) return 1d;
+		if (l1.isEmpty() ||l2.isEmpty()) return 0d;
 		
 		String str1 = convertToString(l1);
 		String str2 = convertToString(l2);
 //		return computeSimilarity(mostOcurrencesElement(l1), mostOcurrencesElement(l2));
-		return computeSimilarity(mostOcurrencesElement(str1.toCharArray()), mostOcurrencesElement(str2.toCharArray()));
+		return similarity(str1, str2);
 	}
 	
 	
@@ -131,7 +136,7 @@ public class MostFreqKDistance implements Similarity {
 	 * @param maximum possible limit value
 	 * @return distance as integer
 	 */
-	private Double computeSimilarity(String str1, String str2) {
+	private int computeSimilarity(String str1, String str2) {
 		int strLength1 = str1.length();
 		int strLength2 = str2.length();
 		int similarity = 0;
@@ -155,12 +160,12 @@ public class MostFreqKDistance implements Similarity {
 						k2++;
 					}
 
-					similarity += Integer.parseInt(digitStr2) + Integer.parseInt(digitStr1);
+					if (digitStr2.equals(digitStr1)) similarity += Integer.parseInt(digitStr2);// + Integer.parseInt(digitStr1);
 
 				}
 			}
 		}
-		return Double.valueOf(Math.abs(limit - similarity));
+		return similarity;
 	}
 
 	@SuppressWarnings("unused")

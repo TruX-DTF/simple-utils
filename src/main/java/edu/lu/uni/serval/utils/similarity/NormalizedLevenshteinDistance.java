@@ -18,7 +18,7 @@ public class NormalizedLevenshteinDistance implements Similarity {
         }
 
         if (str1.equals(str2)) {
-            return 0d;
+            return 1d;
         }
 
         int m_len = Math.max(str1.length(), str2.length());
@@ -26,7 +26,7 @@ public class NormalizedLevenshteinDistance implements Similarity {
         if (m_len == 0) {
             return 0d;
         }
-		return ld.similarity(str1, str2) / m_len;
+		return 1 - (double) ld.ld(str1, str2) / m_len;
 	}
 
 	@Override
@@ -35,8 +35,8 @@ public class NormalizedLevenshteinDistance implements Similarity {
 			return Double.NaN;
         }
 
-        if (l1.equals(l2)) {
-            return 0d;
+        if (l1.containsAll(l2) && l2.containsAll(l1)) {
+            return 1d;
         }
 
         int m_len = Math.max(l1.size(), l2.size());
@@ -44,7 +44,7 @@ public class NormalizedLevenshteinDistance implements Similarity {
         if (m_len == 0) {
             return 0d;
         }
-		return ld.similarity(l1, l2) / m_len;
+		return 1 - (double) ld.ld(l1, l2) / m_len;
 	}
 
 }
